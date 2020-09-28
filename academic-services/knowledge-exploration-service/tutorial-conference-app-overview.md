@@ -32,7 +32,9 @@ This tutorial is split into four sections to illustrate different concepts.
 
 ## Link and Add Conference Oral Presentation Data
 
-- Learn how to link private data with entities in MAKES index(es)
+- Learn how to link private data with MAG entities in MAKES index(es)
+	Know how to link entities using Interpret API and the associated confidence score
+	Undestand how to leverage MAG entity attributes to enrich private data
 
 ## Customize Search for Oral Presentataion 
 
