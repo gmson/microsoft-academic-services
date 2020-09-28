@@ -2,7 +2,7 @@
 title: Link private data with MAG entities using MAKES
 description: Step by step tutorial for linking prviate data with MAG entities using MAKES
 ms.topic: tutorial
-ms.date: 09/24/2020
+ms.date: 09/27/2020
 ---
 
 # Link private data with MAG entities using MAKES
@@ -11,7 +11,7 @@ This is the third part of building an knowledge application for KDD conference.
 
 In this tutorial, we'll focus on linking outside data sources (KDD 2019 oral presentations) with MAG entities to enrich the search experience. After linking the oral presentation data using MAKES, users should be able to search for presentations by fields of study, abstract, authors, and affiliations. 
 
-We will start with leveraging the default MAKES grammar for entity linking. Next, we will build a MAKES index that supports oral presentation search. Finally, we'll create a UI for users to find oral presentations. 
+We will start with leveraging the default MAKES grammar for entity linking. Next, we will build a MAKES index that supports oral presentation search. Finally, we'll create a UI for users to find oral presentations.
 
 ## Prerequisite
 
@@ -27,7 +27,6 @@ We will start with leveraging the default MAKES grammar for entity linking. Next
     **https://<makes_storage_account>.blob.core.windows.net/makes/<makes_release>/tools/kesm.zip**)
 
 1. Download and unzip tutorial resources from [here](TutorialResources.zip).
-
 
 ## Leverage Interpret API to Link data with MAG entities
 
@@ -45,7 +44,7 @@ We've created a sample powershell script to link the 2019 KDD oral presentation 
 
 You should see console output similar to below:
 
-![linkKddOralPresentation script console output]()
+![linkKddOralPresentation script console output](linkKddOralPresentation-script-console-output.png)
 
 The first column represents the confidence score (in log probability form) for each entity linking attempt via title match. The script has a preset minimum confidence score for linking. You can modify the **minLogProbForLinking** variable to change the linking behavior.
 
@@ -68,7 +67,7 @@ The first step of building MAKES index is to create a index schema. We've includ
 1. Open up a commandline console, change directory to the root of the tutorial resource folder, and build the index with the following command:
 
     ```cmd
-    kesm.exe BuildIndexLocal --SchemaFilePath <tutorial_resource_root>/kddSchema.json --EntitiesFilePath kddData.json --OutputIndexFilePath <tutorial_resource_root>/kddpapers.kes --IndexDescription "Papers from KDD conference"
+    kesm.exe BuildIndexLocal --SchemaFilePath <tutorial_resource_root>/kddOralPresentationSchema.json --EntitiesFilePath kddOralPresentation2019Data.flat.linked.json --OutputIndexFilePath <tutorial_resource_root>/kdd2019OralPresentations.kes --IndexDescription "KDD 2019 Oral Presentations"
     ```
     ## Deploy MAKES API Host with a custom index
 
@@ -111,5 +110,10 @@ For more detailed deployment instructions, See [Create API Instances](get-starte
 > [!NOTE]
 > Since the index we're hosting is relatively small, you can reduce Azure consumption for the tutorial MAKES host instance by using the "--HostMachineSku" parameter and set the SKU to "Standard_D2_V2".
 
-
 ## Create filterable oral presentation list UI
+
+We now have a backend API to serve our KDD oral presentation data. The last step is to create the client application to showcase the filterable and search capability. The client application will support search, smart filter generation, and data retrival via Interpret, Histogram, and Evaluate APIs. For more information on building knowledge application client for search and filtering, see [Create a filterable paper list using MAKES](tutorial-conference-filterable-paperlist.md) for more details.
+
+### Use sample UI code to see them in action
+
+We've created a sample client app written in javascript. You should be able to see the conference application with a filterable paper list by wiring up the MAKES host URL to your deployed MAKES instance. For more to run the client app information, see **<tutorial_resource_root>/ConferenceApp_FilterableOralPresentation/README.md**
