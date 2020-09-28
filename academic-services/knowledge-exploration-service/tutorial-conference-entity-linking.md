@@ -9,15 +9,14 @@ ms.date: 09/27/2020
 
 This is the third part of building an knowledge application for KDD conference. 
 
-In this tutorial, we'll focus on linking outside data sources (KDD 2019 oral presentations) with MAG entities to enrich the search experience. After linking the oral presentation data using MAKES, users should be able to search for presentations by fields of study, abstract, authors, and affiliations. 
+In this tutorial, we'll focus on linking outside data sources (KDD 2019 oral presentations) with MAG entities to enrich the search and viewing experience. After linking the oral presentation data using MAKES, users should be able to search for presentations by fields of study, abstract, authors, and affiliations. 
 
-We will start with leveraging the default MAKES grammar for entity linking. Next, we will build a MAKES index that supports oral presentation search. Finally, we'll create a UI for users to find oral presentations.
+We will by leveraging the default MAKES grammar for entity linking. Next, we will build a MAKES index that supports oral presentation search. Finally, we'll create a UI for users to find oral presentations.
 
 ## Prerequisite
 
 - [Microsoft Academic Knowledge Service (MAKES) subscription](get-started-setup-provisioning.md)
-- Follow [Create API instance](get-started-create-api-instances.md) to deploy a MAKES instance
-- Understand how to design, build, deploy a custom index, and create a corresponding UI by following [Create a filterable paper list using MAKES](tutorial-conference-filterable-paperlist.md) 
+- Follow [Create API instance guide](get-started-create-api-instances.md) and deploy a MAKES instance
 - [Install Powershel 7](https://docs.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7)
 
 ## Download and unzip tutorial resources
@@ -56,21 +55,23 @@ Since we'll be linking data by presentations, we can transform the oral presenta
 
 We've created a sample powershell script to link the 2019 KDD oral presentation data with MAG entities using a MAKES instance. To run the script:
 
-    1. Follow [Create API instance](get-started-create-api-instances.md) to deploy a MAKES instance if you haven't already
-    1. Open **<tutorial_resource_root>/linkKddOralPresentationData.ps1** and modify the **makesEndpoint** variable and set it to the URL of the MAKES instance you deployed
-    1. Open up a terminal and execute the script
+1. Follow [Create API instance](get-started-create-api-instances.md) to deploy a MAKES instance if you haven't already
+1. Open **<tutorial_resource_root>/linkKddOralPresentationData.ps1** and modify the **makesEndpoint** variable and set it to the URL of the MAKES instance you deployed
+1. Open up a terminal and execute the script
 
 You should see console output similar to below:
 
-![linkKddOralPresentation script console output](linkKddOralPresentation-script-console-output.png)
+![linkKddOralPresentation script console output](media/linkKddOralPresentation-script-console-output.png)
 
 The first column represents the confidence score (in log probability form) for each entity linking attempt via title match. The script has a preset minimum confidence score for linking. You can modify the **minLogProbForLinking** variable to change the linking behavior.
+
+The second column is the linked MAG paper Id. The third/fourth columns are titles from oral presentation data and MAG paper entity.
 
 ### Leverage MAG entities to enrich oral presentation data
 
 After linking a oral presentation with a paper entity sucessfully, we can then leverage the MAG paper entity attributes to enrich information of the linked oral presentation. 
 
-In the entity linking script provided, we've added various MAG paper entity attributes such as fields of study, normalized title, abstract for search and display. To merge these additional information, see **Merge-MagEntity(oralPresentationEntity, magPaperEntity)** function in **<tutorial_resource_root>/linkKddOralPresentationData.ps1**
+In the entity linking script provided, we've added various MAG paper entity attributes such as fields of study, normalized title, abstract for search and display. To merge these additional information, see **Merge-MagEntity(oralPresentationEntity, magPaperEntity)** function in **<tutorial_resource_root>/linkKddOralPresentationData.ps1** for more details.
 
 ## Build and host index with linked oral presentation data
 
@@ -87,7 +88,8 @@ The first step of building MAKES index is to create a index schema. We've includ
     ```cmd
     kesm.exe BuildIndexLocal --SchemaFilePath <tutorial_resource_root>/kddOralPresentationSchema.json --EntitiesFilePath kddOralPresentation2019Data.flat.linked.json --OutputIndexFilePath <tutorial_resource_root>/kdd2019OralPresentations.kes --IndexDescription "KDD 2019 Oral Presentations"
     ```
-    ## Deploy MAKES API Host with a custom index
+
+### Deploy MAKES API Host with a custom index
 
 We are now ready to set up a MAKES API instance with a custom index.
 
