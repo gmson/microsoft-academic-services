@@ -32,9 +32,27 @@ We will start with leveraging the default MAKES grammar for entity linking. Next
 
 MAKES's Interpret API interprets a natural language query using a garmmar. The default grammar MAKES API is designed for general paper entity search. The grammar can parse out title, author, affiliation, fields of study, etc in a natural language query to find papers. Since the Interpret API provides a confidence score(in log probability form) with each interpretation, we can set a minimum confidence score and link MAG entity using the default grammar. To learn more about the default MAKES grammar, see [MAKES example grammar](how-to-grammar.md#example-grammar).
 
-### Use default MAKES grammar to link oral presentation data via paper title match
+### Determine entity linking strategy
 
-Inspect the 2019 KDD oral presentation data from **<tutorial_resource_root>/kddData.json**. We see that the presentation titles/paper titles are nicely seperated as a indiviual attribute. We can call Interpret API for each presentation and conduct a "paper title" search to link oral presentations with paper entities in MAG.
+Inspect the 2019 KDD oral presentation data from **<tutorial_resource_root>/kddOralPresentation2019Data.json**. These oral presentation data are drived from the [Official 2019 KDD oral presentation agenda](https://www.kdd.org/kdd2019/docs/Applied_Data_Science_and_Research_Track_Paper_Oral_Presentations.pdf). We see that the presentation titles/paper titles are nicely seperated as a indiviual attribute. We can call Interpret API for each presentation and conduct a "paper title" search to link oral presentations with paper entities in MAG.
+
+Since we'll be linking data by presentations, we can transform the oral presentation data from session entity based data to oral presentation entity based data for easier data manipulation. We have done this step for the transformed data is avaliable at **tutorial_resource_root>/kddOralPresentation2019Data.flat.json**. Below is an example of the transformed oral presentation entity:
+
+```json
+{
+    "Title": "Auto-Keras: An Efficient Neural Architecture Search System",
+    "Presenters": "Haifeng Jin (Texas A&M University); Qingquan Song (Texas A&M University); Xia Hu (Texas A&M University)",
+    "Session": {
+      "Title": "Applied Data Science Track Session ADS1: Auto-ML and Development Frameworks",
+      "Location": "Summit 1, Ground Level, Egan Center",
+      "Chair": "Gabor Melli (Sony PlayStation)",
+      "StartDateTime": "Tuesday, August 6th, 2019 10:00AM",
+      "EndDateTime": "Tuesday, August 6th, 2019 12:00AM"
+    }
+}
+```
+
+### Use default MAKES grammar to link oral presentation data via paper title match
 
 We've created a sample powershell script to link the 2019 KDD oral presentation data with MAG entities using a MAKES instance. To run the script:
 
