@@ -15,7 +15,7 @@ We will by leveraging the default MAKES grammar for entity linking. Next, we wil
 
 ## Prerequisite
 
-- [Microsoft Academic Knowledge Service (MAKES) subscription](get-started-setup-provisioning.md)
+- Microsoft Academic Knowledge Exploration Service (MAKES) subscription. See [Get started with Microsoft Academic Knowledge Exploration Service](get-started-setup-provisioning.md) to obtain one
 - Follow [Create API instance guide](get-started-create-api-instances.md) and deploy a MAKES instance
 - [Install Powershel 7](https://docs.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7)
 

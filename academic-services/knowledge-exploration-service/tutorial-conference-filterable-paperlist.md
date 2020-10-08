@@ -15,7 +15,7 @@ In this tutorial, we'll focus on designing the appropriate KES schema such that 
 
 ## Prerequisites
 
-- [Microsoft Academic Knowledge Service (MAKES) subscription](get-started-setup-provisioning.md)
+- Microsoft Academic Knowledge Exploration Service (MAKES) subscription. See [Get started with Microsoft Academic Knowledge Exploration Service](get-started-setup-provisioning.md) to obtain one
 
 ## Download and unzip tutorial resources
 
